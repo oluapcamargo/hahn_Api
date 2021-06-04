@@ -10,7 +10,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controller.Asset
     {
         [HttpPut]
         [Route("Update")]
-        public async Task<IActionResult> Update([FromQuery] UpdateAssetInput input)
+        public async Task<IActionResult> Update([FromBody] UpdateAssetInput input)
         {
             var result = await _mediator.Send(input);
             return Ok(result);

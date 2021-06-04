@@ -10,7 +10,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controller.Asset
     {
         [HttpDelete]
         [Route("Delete")]
-        public async Task<IActionResult> Delete([FromQuery] DeleteAssetInput input)
+        public async Task<IActionResult> Delete([FromBody] DeleteAssetInput input)
         {
             var result = await _mediator.Send(input);
             return Ok(result);

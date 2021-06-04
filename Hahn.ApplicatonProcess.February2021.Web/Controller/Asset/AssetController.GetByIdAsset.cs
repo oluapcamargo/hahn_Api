@@ -11,7 +11,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controller.Asset
         [HttpGet]
         [Route("GetAsset")]
 
-        public async Task<IActionResult> ObterCartaoCredito([FromQuery] GetAssetInput input)
+        public async Task<IActionResult> GetAsset([FromQuery] GetAssetInput input)
         {
             var result = await _mediator.Send(input);
             return Ok(result);
