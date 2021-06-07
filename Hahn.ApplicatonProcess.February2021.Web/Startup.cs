@@ -1,11 +1,14 @@
 using Hahn.ApplicatonProcess.February2021.Data.Context;
 using Hahn.ApplicatonProcess.February2021.Data.Repository;
 using Hahn.ApplicatonProcess.February2021.Domain.Interface;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 namespace Hahn.ApplicatonProcess.February2021.Web
 {
@@ -22,9 +25,10 @@ namespace Hahn.ApplicatonProcess.February2021.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddMediatR(typeof(Startup));
             services.ConfigureDbContext(Configuration);
             services.AddControllers();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(); 
 
             services.AddScoped<IAssetRepository, AssetRepository>();
         }
@@ -54,11 +58,14 @@ namespace Hahn.ApplicatonProcess.February2021.Web
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(new { Sucesso = true, NomeApi = $"API Hahn" }));
+                });
             });
         }
     }

@@ -38,7 +38,7 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Commands.AssetCommands
                 };
             
             ValidationResult results = validator.Validate(assetInsert);
-            if (! results.IsValid)
+            if (results.IsValid)
             {
                 await _repository.AddAsync(assetInsert);
                 result.HttpStatusCode = System.Net.HttpStatusCode.Created;
@@ -47,7 +47,7 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Commands.AssetCommands
             {
                 foreach (var item in results.Errors)
                 {
-                    result.Errors.Add("Error on  " + item.PropertyName +" ; Error Message : " + item.ErrorMessage);
+                    result.WithError("Error on  " + item.PropertyName +" ; Error Message : " + item.ErrorMessage);
                 }
             }
             return result;

@@ -22,7 +22,7 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Commands.AssetCommands
             var result = new Result();
             AssetValidator validator = new AssetValidator();
             ValidationResult results = validator.Validate(request.Asset);
-            if (!results.IsValid)
+            if (results.IsValid)
             {
                 var asset = await _repository.GetAsync(request.Asset.Id);
                 if(asset != null) 
@@ -44,7 +44,7 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Commands.AssetCommands
             {
                 foreach (var item in results.Errors)
                 {
-                    result.Errors.Add("Error on  " + item.PropertyName + " ; Error Message : " + item.ErrorMessage);
+                    result.WithError("Error on  " + item.PropertyName + " ; Error Message : " + item.ErrorMessage);
                 }
             }
             return result;
