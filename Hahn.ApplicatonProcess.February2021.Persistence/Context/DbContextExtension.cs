@@ -13,7 +13,8 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Context
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<HannContext>(options =>
-                options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"));
+                options.UseInMemoryDatabase(databaseName: "InMemoryDatabase")
+                );
         }
     }
 }
