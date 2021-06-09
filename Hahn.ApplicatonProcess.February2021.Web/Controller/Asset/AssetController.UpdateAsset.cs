@@ -1,6 +1,4 @@
 using Hahn.ApplicatonProcess.February2021.Domain.ViewModel.Input.AssetInput;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
