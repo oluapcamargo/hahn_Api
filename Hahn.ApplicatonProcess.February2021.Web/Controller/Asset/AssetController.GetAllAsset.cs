@@ -7,6 +7,9 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controller.Asset
 {
     public partial class AssetController
     {
+        // <summary>
+        /// Get all Asset.
+        /// </summary>
         [HttpGet]
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()

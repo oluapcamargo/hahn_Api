@@ -8,6 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.Examples;
+using Swashbuckle.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Hahn.ApplicatonProcess.February2021.Web
@@ -28,8 +35,17 @@ namespace Hahn.ApplicatonProcess.February2021.Web
             services.AddMediatR(typeof(Startup));
             services.ConfigureDbContext(Configuration);
             services.AddControllers();
-            services.AddSwaggerGen(); 
+            services.AddSwaggerExamples();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hahn API", Version = "v1" });
+                c.ExampleFilters();
+                c.OperationFilter<Swashbuckle.AspNetCore.Filters.AddResponseHeadersFilter>(); // [SwaggerResponseHeader]
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
+            });
             services.AddScoped<IAssetRepository, AssetRepository>();
         }
 
@@ -50,6 +66,8 @@ namespace Hahn.ApplicatonProcess.February2021.Web
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hahn API");
+                c.RoutePrefix = string.Empty;
+
             });
 
             app.UseHttpsRedirection();
@@ -65,6 +83,8 @@ namespace Hahn.ApplicatonProcess.February2021.Web
                 {
                     await context.Response.WriteAsync(JsonSerializer.Serialize(new { Sucesso = true, NomeApi = $"API Hahn" }));
                 });
+                endpoints.MapRazorPages();
+
             });
         }
     }

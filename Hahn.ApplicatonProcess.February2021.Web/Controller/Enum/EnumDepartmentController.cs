@@ -13,6 +13,10 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controller.Enum
     {
         public EnumDepartmentController(){}
 
+        // <summary>
+        /// Get all Departament.
+        /// </summary>
+        /// <param name="Asset"></param>
         [HttpGet]
         public IActionResult GetEnum()
         {
